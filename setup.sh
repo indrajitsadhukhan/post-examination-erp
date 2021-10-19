@@ -1,5 +1,6 @@
-sh setup-scripts/minikube-install.sh
-sh setup-scripts/kubegres-install.sh
+#!/bin/bash
+/bin/bash setup-scripts/minikube-install.sh
+/bin/bash setup-scripts/kubegres-install.sh
 
 # Apply postgres configs
 kubectl apply -f config/postgres-secret.yaml
