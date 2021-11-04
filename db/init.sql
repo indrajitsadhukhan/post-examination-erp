@@ -48,3 +48,49 @@ create table programme_versions (
 	start_date timestamp,
 	end_date timestamp
 );
+
+create table semester (
+	id SERIAL PRIMARY KEY,
+	programme_version_id INT references programme_versions(id),
+	num smallint,
+	start_date timestamp,
+	end_date timestamp
+);
+
+create table course (
+	id SERIAL PRIMARY KEY,
+	code varchar(255),
+	name varchar(255)
+);
+
+create table course_versions (
+	id SERIAL PRIMARY KEY,
+	course_id INT references course(id),
+	details text
+);
+
+create table semester_courses (
+	id SERIAL PRIMARY KEY,
+	course_version_id INT references course_versions(id),
+	semester_id INT references semester(id)
+);
+
+create table course_examiners (
+	id SERIAL PRIMARY KEY,
+	semester_course_id INT references semester_courses(id),
+	user_id INT references users(id)
+);
+
+create table exam (
+	id SERIAL PRIMARY KEY,
+	semester_courses_id INT references semester_courses(id),
+	name varchar(255),
+	full_marks numeric
+);
+
+create table marks (
+	id SERIAL PRIMARY KEY,
+	exam_id INT references exam(id),
+	user_id INT references users(id),
+	obtained_marks numeric
+);
