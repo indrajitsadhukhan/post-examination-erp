@@ -100,16 +100,17 @@ create table grade_data (
 	low float,
 	high float,
 	numeric_grade float NOT NULL DEFAULT -1,
-	letter_grade varchar(5),
+	letter_grade varchar(5) NOT NULL DEFAULT '-',
 	performance varchar(100),
-	constraint grades_pk PRIMARY KEY (gid, numeric_grade)
+	constraint grades_pk PRIMARY KEY (gid, letter_grade, numeric_grade)
 );
 
 create table grades (
 	id SERIAL PRIMARY KEY,
 	grade_data_id INT,
-	numeric_grade INT,
-	foreign key (grade_data_id, numeric_grade) references grade_data(gid, numeric_grade)
+	numeric_grade INT NOT NULL,
+	letter_grade varchar(5) NOT NULL,
+	foreign key (grade_data_id, letter_grade, numeric_grade) references grade_data(gid, letter_grade, numeric_grade)
 );
 
 create table regulations (
