@@ -34,9 +34,7 @@ values
 ('
  {
  	"name": "critera_ug_2018",
-	"theory_pass_per": "40",
- 	"practical_pass_per": "50",
- 	"attendance_per": "75"
+    "min_cgpa": "8.0",
  }
 ');
 
@@ -46,6 +44,9 @@ values
  {
  	"name": "programme_critera_ug_2018",
 	"cgpa_requirement": "5",
- 	"max_backlogs_in_a_year": "5"
+ 	"max_backlogs_in_a_year": "5",
+    "theory_pass_per": "40",
+ 	"practical_pass_per": "50",
+ 	"attendance_per": "75"
  }
 ');
