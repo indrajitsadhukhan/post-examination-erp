@@ -107,10 +107,7 @@ create table grade_data (
 
 create table grades (
 	id SERIAL PRIMARY KEY,
-	grade_data_id INT,
-	numeric_grade INT NOT NULL,
-	letter_grade varchar(5) NOT NULL,
-	foreign key (grade_data_id, letter_grade, numeric_grade) references grade_data(gid, letter_grade, numeric_grade)
+	grade_data_id INT
 );
 
 create table regulations (
