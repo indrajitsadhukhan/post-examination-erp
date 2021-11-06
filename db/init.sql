@@ -1,7 +1,7 @@
 create table users (
 	id SERIAL PRIMARY KEY,
-	email varchar(255),
-	first_name varchar(100),
+	email varchar(255) UNIQUE,
+	first_name varchar(100) NOT NULL,
 	last_name varchar(100)
 );
 
@@ -14,7 +14,7 @@ create table user_data (
 
 create table roles (
 	id SERIAL PRIMARY KEY,
-	name varchar(100)
+	name varchar(100) UNIQUE NOT NULL
 );
 
 create table user_roles (
@@ -26,7 +26,7 @@ ALTER TABLE user_roles ADD CONSTRAINT user_roles_pk PRIMARY KEY (uid, rid);
 
 create table permissions (
 	id SERIAL PRIMARY KEY,
-	name varchar(100)
+	name varchar(100) UNIQUE NOT NULL
 );
 
 create table role_permissions (
@@ -38,8 +38,8 @@ ALTER TABLE role_permissions ADD CONSTRAINT role_permissions_pk PRIMARY KEY (rid
 
 create table programme (
 	id SERIAL PRIMARY KEY,
-	name varchar(255),
-	code varchar(255) UNIQUE
+	name varchar(255) NOT NULL,
+	code varchar(255) UNIQUE NOT NULL
 );
 
 create table programme_versions (
@@ -52,15 +52,15 @@ create table programme_versions (
 create table semester (
 	id SERIAL PRIMARY KEY,
 	programme_version_id INT references programme_versions(id),
-	num smallint,
+	num smallint NOT NULL,
 	start_date timestamp,
 	end_date timestamp
 );
 
 create table course (
 	id SERIAL PRIMARY KEY,
-	code varchar(255),
-	name varchar(255)
+	code varchar(255) UNIQUE NOT NULL,
+	name varchar(255) NOT NULL
 );
 
 create table course_versions (
@@ -84,8 +84,8 @@ create table course_examiners (
 create table exam (
 	id SERIAL PRIMARY KEY,
 	semester_courses_id INT references semester_courses(id),
-	name varchar(255),
-	full_marks numeric
+	name varchar(255) NOT NULL,
+	full_marks numeric NOT NULL
 );
 
 create table marks (
@@ -93,4 +93,27 @@ create table marks (
 	exam_id INT references exam(id),
 	user_id INT references users(id),
 	obtained_marks numeric
+);
+
+create table grade_data (
+	gid INT,
+	low float NOT NULL,
+	high float NOT NULL,
+	numeric_grade float NOT NULL,
+	letter_grade varchar(5) NOT NULL,
+	performance varchar(100),
+	constraint grades_pk PRIMARY KEY (gid, numeric_grade)
+);
+
+create table grades (
+	id SERIAL PRIMARY KEY,
+	grade_data_id INT,
+	numeric_grade INT,
+	foreign key (grade_data_id, numeric_grade) references grade_data(gid, numeric_grade)
+);
+
+create table regulations (
+	id SERIAL PRIMARY KEY,
+	grade_id INT references grades(id),
+	data jsonb
 );
