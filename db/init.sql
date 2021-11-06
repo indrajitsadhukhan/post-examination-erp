@@ -96,11 +96,11 @@ create table marks (
 );
 
 create table grade_data (
-	gid INT,
-	low float NOT NULL,
-	high float NOT NULL,
-	numeric_grade float NOT NULL,
-	letter_grade varchar(5) NOT NULL,
+	gid INT NOT NULL,
+	low float,
+	high float,
+	numeric_grade float NOT NULL DEFAULT -1,
+	letter_grade varchar(5),
 	performance varchar(100),
 	constraint grades_pk PRIMARY KEY (gid, numeric_grade)
 );
