@@ -36,6 +36,16 @@ create table role_permissions (
 
 ALTER TABLE role_permissions ADD CONSTRAINT role_permissions_pk PRIMARY KEY (rid, pid);
 
+create table programme_regulations (
+	id SERIAL PRIMARY KEY,
+	data jsonb
+);
+
+create table course_regulations (
+	id SERIAL PRIMARY KEY,
+	data jsonb
+);
+
 create table programme (
 	id SERIAL PRIMARY KEY,
 	name varchar(255) NOT NULL,
@@ -45,6 +55,7 @@ create table programme (
 create table programme_versions (
 	id SERIAL PRIMARY KEY,
 	programme_id INT references programme(id),
+	programme_regulations_id INT references programme_regulations(id),
 	start_date timestamp,
 	end_date timestamp
 );
@@ -69,10 +80,27 @@ create table course_versions (
 	details text
 );
 
+create table grade_data (
+	gid INT NOT NULL,
+	low float,
+	high float,
+	numeric_grade float NOT NULL DEFAULT -1,
+	letter_grade varchar(5) NOT NULL DEFAULT '-',
+	performance varchar(100),
+	constraint grades_pk PRIMARY KEY (gid, letter_grade, numeric_grade)
+);
+
+create table grades (
+	id SERIAL PRIMARY KEY,
+	grade_data_id INT
+);
+
 create table semester_courses (
 	id SERIAL PRIMARY KEY,
 	course_version_id INT references course_versions(id),
-	semester_id INT references semester(id)
+	course_regulations_id INT references course_regulations(id),
+	semester_id INT references semester(id),
+	grade_id INT references grades(id)
 );
 
 create table course_examiners (
@@ -93,25 +121,4 @@ create table marks (
 	exam_id INT references exam(id),
 	user_id INT references users(id),
 	obtained_marks numeric
-);
-
-create table grade_data (
-	gid INT NOT NULL,
-	low float,
-	high float,
-	numeric_grade float NOT NULL DEFAULT -1,
-	letter_grade varchar(5) NOT NULL DEFAULT '-',
-	performance varchar(100),
-	constraint grades_pk PRIMARY KEY (gid, letter_grade, numeric_grade)
-);
-
-create table grades (
-	id SERIAL PRIMARY KEY,
-	grade_data_id INT
-);
-
-create table regulations (
-	id SERIAL PRIMARY KEY,
-	grade_id INT references grades(id),
-	data jsonb
 );

@@ -1,8 +1,7 @@
 /*
 
-drop table regulations CASCADE;
 drop table grades CASCADE;
-drop table grades_data CASCADE;
+drop table grade_data CASCADE;
 drop table marks CASCADE;
 drop table exam CASCADE;
 drop table course_examiners CASCADE;
@@ -12,6 +11,8 @@ drop table course CASCADE;
 drop table semester CASCADE;
 drop table programme_versions CASCADE;
 drop table programme CASCADE;
+drop table programme_regulations CASCADE;
+drop table course_regulations CASCADE;
 drop table role_permissions CASCADE;
 drop table permissions CASCADE;
 drop table user_roles CASCADE;
