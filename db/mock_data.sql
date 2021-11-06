@@ -34,7 +34,7 @@ values
 ('
  {
  	"name": "critera_ug_2018",
-    "min_cgpa": "8.0",
+    "min_cgpa": "8.0"
  }
 ');
 
