@@ -92,6 +92,7 @@ create table grade_data (
 
 create table grades (
 	id SERIAL PRIMARY KEY,
+	name varchar(100),
 	grade_data_id INT
 );
 

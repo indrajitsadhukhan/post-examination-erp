@@ -12,7 +12,7 @@ values
 
 insert into grades
 values
-(1, 1);
+(1, '2018_theory', 1);
 
 insert into grade_data
 values
@@ -27,4 +27,25 @@ values
 
 insert into grades
 values
-(2, 2);
+(2, '2018_practical', 1);
+
+insert into course_regulations (data)
+values
+('
+ {
+ 	"name": "critera_ug_2018",
+	"theory_pass_per": "40",
+ 	"practical_pass_per": "50",
+ 	"attendance_per": "75"
+ }
+');
+
+insert into programme_regulations (data)
+values
+('
+ {
+ 	"name": "programme_critera_ug_2018",
+	"cgpa_requirement": "5",
+ 	"max_backlogs_in_a_year": "5"
+ }
+');
