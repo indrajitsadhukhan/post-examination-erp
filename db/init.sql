@@ -1,6 +1,7 @@
 create table users (
 	id SERIAL PRIMARY KEY,
 	email varchar(255) UNIQUE,
+	password_hash varchar(255) NOT NULL,
 	first_name varchar(100) NOT NULL,
 	last_name varchar(100)
 );
@@ -38,11 +39,13 @@ ALTER TABLE role_permissions ADD CONSTRAINT role_permissions_pk PRIMARY KEY (rid
 
 create table programme_regulations (
 	id SERIAL PRIMARY KEY,
+	name varchar(255) NOT NULL,
 	data jsonb
 );
 
 create table course_regulations (
 	id SERIAL PRIMARY KEY,
+	name varchar(255) NOT NULL,
 	data jsonb
 );
 

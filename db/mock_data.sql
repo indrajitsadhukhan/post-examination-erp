@@ -29,24 +29,37 @@ insert into grades
 values
 (2, '2018_practical', 1);
 
-insert into course_regulations (data)
+insert into course_regulations (name, data)
 values
-('
+(
+	'critera_ug_2018',
+'
  {
- 	"name": "critera_ug_2018",
     "min_cgpa": "8.0"
  }
 ');
 
-insert into programme_regulations (data)
+insert into programme_regulations (name, data)
 values
-('
+(
+	'programme_critera_ug_2018',
+'
  {
- 	"name": "programme_critera_ug_2018",
 	"cgpa_requirement": "5",
- 	"max_backlogs_in_a_year": "5",
-    "theory_pass_per": "40",
- 	"practical_pass_per": "50",
- 	"attendance_per": "75"
+	"max_backlogs_in_a_year": "5",
+	"theory_pass_per": "40",
+	"practical_pass_per": "50",
+	"attendance_per": "75"
+ }
+'),
+(
+	'programme_critera_ug_2019',
+'
+ {
+	"cgpa_requirement": "6",
+	"max_backlogs_in_a_year": "6",
+	"theory_pass_per": "40",
+	"practical_pass_per": "50",
+	"attendance_per": "75"
  }
 ');
