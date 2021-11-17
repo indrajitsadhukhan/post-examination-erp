@@ -1,14 +1,31 @@
 <?php
 
+$data = [
+    'cgpa' => 8,
+    'attendance' => 75,
+    'backlogs' => 0
+];
+
+$template = '
+function run($data) {
+    %s
+}
+';
+
 function execute()
 {
-    $data = array(
-        'cgpa' => 8
-    );
+    global $template, $data;
+    $user_input = '
+        return (
+            $data["cgpa"] > 5 &&
+            $data["attendance"] >= 75 &&
+            $data["backlogs"] < 3
+        ) ? "Passed" : "Back kheyeso";
+    ';
 
-    $str = '$x = $data["cgpa"]; return $x > 5;';
-    $res = eval($str);
-    print($res);
+    $func = sprintf($template, $user_input);
+    eval($func);
+    print(run($data));
 }
 
 execute();
