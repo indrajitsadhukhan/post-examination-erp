@@ -126,3 +126,8 @@ create table marks (
 	user_id INT references users(id),
 	obtained_marks numeric
 );
+create table programme_users(
+	id SERIAL PRIMARY KEY,
+	programme_id INT references programme_versions(id),
+	user_id INT references users(id)
+);
