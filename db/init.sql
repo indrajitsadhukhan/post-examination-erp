@@ -117,6 +117,7 @@ create table exams (
 	id SERIAL PRIMARY KEY,
 	semester_course_id references semester_courses(id),
 	name varchar(255) NOT NULL,
+	weightage float NOT NULL,
 	full_marks numeric NOT NULL
 );
 
