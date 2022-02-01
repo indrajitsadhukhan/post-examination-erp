@@ -113,19 +113,20 @@ create table course_examiners (
 	user_id INT references users(id)
 );
 
-create table exam (
+create table exams (
 	id SERIAL PRIMARY KEY,
-	semester_courses_id INT references semester_courses(id),
+	semester_course_id references semester_courses(id),
 	name varchar(255) NOT NULL,
 	full_marks numeric NOT NULL
 );
 
 create table marks (
 	id SERIAL PRIMARY KEY,
-	exam_id INT references exam(id),
+	exam_id INT references exams(id),
 	user_id INT references users(id),
 	obtained_marks numeric
 );
+
 create table programme_users(
 	id SERIAL PRIMARY KEY,
 	programme_id INT references programme_versions(id),
