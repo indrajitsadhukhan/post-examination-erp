@@ -63,6 +63,12 @@ create table programme_versions (
 	end_date timestamp
 );
 
+create table programme_users(
+	id SERIAL PRIMARY KEY,
+	programme_id INT references programme_versions(id),
+	user_id INT references users(id)
+);
+
 create table semester (
 	id SERIAL PRIMARY KEY,
 	programme_version_id INT references programme_versions(id),
@@ -75,12 +81,6 @@ create table course (
 	id SERIAL PRIMARY KEY,
 	code varchar(255) UNIQUE NOT NULL,
 	name varchar(255) NOT NULL
-);
-
-create table course_versions (
-	id SERIAL PRIMARY KEY,
-	course_id INT references course(id),
-	details text
 );
 
 create table grade_data (
@@ -101,10 +101,11 @@ create table grades (
 
 create table semester_courses (
 	id SERIAL PRIMARY KEY,
-	course_version_id INT references course_versions(id),
+	course_id INT references course(id),
 	course_regulations_id INT references course_regulations(id),
 	semester_id INT references semester(id),
-	grade_id INT references grades(id)
+	grade_id INT references grades(id),
+	details text
 );
 
 create table course_examiners (
@@ -115,7 +116,7 @@ create table course_examiners (
 
 create table exams (
 	id SERIAL PRIMARY KEY,
-	semester_course_id references semester_courses(id),
+	semester_course_id INT references semester_courses(id),
 	name varchar(255) NOT NULL,
 	weightage float NOT NULL,
 	full_marks numeric NOT NULL
@@ -128,8 +129,3 @@ create table marks (
 	obtained_marks numeric
 );
 
-create table programme_users(
-	id SERIAL PRIMARY KEY,
-	programme_id INT references programme_versions(id),
-	user_id INT references users(id)
-);
