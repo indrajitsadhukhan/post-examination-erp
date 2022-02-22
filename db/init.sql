@@ -479,3 +479,6 @@ ALTER TABLE ONLY user_roles
 
 ALTER TABLE ONLY user_roles
     ADD CONSTRAINT user_roles_uid_fkey FOREIGN KEY (uid) REFERENCES users(id);
+
+ALTER TABLE programme_users ADD UNIQUE(programme_id,user_id);
+ALTER TABLE programme_users ADD CONSTRAINT valid_range CHECK (end_date > start_date) ;
