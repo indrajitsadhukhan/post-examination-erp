@@ -1,27 +1,27 @@
 {
-  "Theory Marks calculation weightage": {
-    "Mid Semester Examination": 30,
-    "Internal Assessment": 20,
-    "End Semester Examination": 50
+  "theoryMarksCalculationWeightage": {
+    "midSemesterExamiation": 30,
+    "internalAssessment": 20,
+    "endSemesterExamination": 50
   },
-  "Laboratory Marks calculation weightage": {
-    "Laboratory Performance": 30,
-    "Laboratory Report": 30,
-    "Semester-End Test": 20,
-    "Viva-voce": 20
+  "laboratoryMarksCalculationWeightage": {
+    "laboratoryPerformance": 30,
+    "laboratoryReport": 30,
+    "semester-EndTest": 20,
+    "viva-voce": 20
   },
-  "Project Marks calculation weightage": {
-    "Supervisor's Assessment": 60,
-    "Board of Examiner's Assessment": 40
+  "projectMarksCalculationWeightage": {
+    "supervisorAssessment": 60,
+    "boardOfExaminerAssessment": 40
   },
-  "Percentage Marks": "(CGPA-0.5)*10",
-  "Next Year Promotion": {
-    "Maximum same year backlog": 5,
-    "Previous backlog": false
+  "percentageMarks": "(CGPA-0.5)*10",
+  "nextYearPromotion": {
+    "maximumSameYearBacklog": 5,
+    "previousBacklog": false
   },
-  "Course Completion Criteria": {
-    "Minimum Passing CGPA": 5,
-    "Maximum Duration in years": 8,
-    "Dues Pending": false
+  "courseCompletionCriteria": {
+    "minimumPassingCGPA": 5,
+    "maximumDurationInYears": 8,
+    "duesPending": false
   }
 }
