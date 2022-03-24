@@ -84,7 +84,7 @@ const createRegulation = (request,response) => {
 		if(error) {
 			throw error
 		}
-		response.status(201).send(`Regulation added with ID: ${results.rows[0].id}`)
+		response.status(201).send({ message: `Regulation added with ID: ${results.rows[0].id}` });
 	})
 }
 
