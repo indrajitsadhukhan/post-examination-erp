@@ -107,7 +107,7 @@ const createProgrammeUser = (request,response) => {
 		if(error) {
 			throw error
 		}
-		response.status(201).send(`User ${user_id} added to programme ${p_id} with entry ID: ${results.rows[0].id}\n`)
+		response.status(201).send({ message: `User ${user_id} added to programme ${p_id} with entry ID: ${results.rows[0].id}\n` });
 	})
 }
 
