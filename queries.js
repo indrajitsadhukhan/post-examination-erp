@@ -119,7 +119,7 @@ const updateProgrammeUserEndDate = (request,response) => {
 		{
 			throw error
 		}
-		response.status(200).send(`Record modified with user id ${id}`)
+		response.status(200).send({ message: `Record modified with user id ${id}` });
 	})
 }
 
