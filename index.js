@@ -48,12 +48,6 @@ app.use('/programme/user', router_programme_users);
 const router_programme = require( './query_programme.js' );
 app.use('/programme',router_programme);
 
-//app.get('/programme/get', db.getProgramme);
-//app.get('/programme/user/get/:id',db.getProgrammeUserById);
-//app.post('/programme/create',db.createProgramme);
-//app.post('/programme/user/insert',db.createProgrammeUser);
-//app.put('/programme/user/update/endDate/:id',db.updateProgrammeUserEndDate);
-
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
