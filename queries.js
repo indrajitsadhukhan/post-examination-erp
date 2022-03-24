@@ -112,7 +112,7 @@ const createProgrammeUser = (request,response) => {
 }
 
 const updateProgrammeUserEndDate = (request,response) => {
-	const id = parseInt(request.params.id)
+	const id = +(request.params.id)
 	const {end_date} = request.body
 	pool.query('UPDATE programme_users SET end_date = $1 WHERE user_id = $2',[end_date,id],(error,results) => {
 		if(error)
