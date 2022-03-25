@@ -13,12 +13,13 @@
 var express = require('express');
 var router = express.Router();
 
-const indexHandler = require('./index')
 const {
+    indexHandler,
     documentViewHandler,
     documentGenerateHandler,
     getDocumentTypes,
-    addDocumentType
+    addDocumentType,
+    addDocumentInstance
 }
     = require('./handlers');
 
@@ -28,10 +29,10 @@ router.get('/view/:document', documentViewHandler);
 router.get('/manage/generate/:document', documentGenerateHandler);
 router.get('/manage/types', getDocumentTypes);
 router.post('/manage/types/add', addDocumentType);
-router.post('/manage/types/:type', () => {});
-router.get('/manage/types/:type/:version', () => {});
-router.put('/manage/types/:type/:version', () => {});
-router.get('/manage/types/:type/:version/list', () => {});
-router.post('/manage/types/:type/:version/generate', () => {});
+router.post('/manage/types/:type', addDocumentInstance);
+router.get('/manage/types/:type/:instance', () => {});
+router.put('/manage/types/:type/:instance', () => {});
+router.get('/manage/types/:type/:instance/list', () => {});
+router.post('/manage/types/:type/:instance/generate', () => {});
 
 module.exports = router;

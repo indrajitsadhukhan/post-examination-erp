@@ -5,7 +5,7 @@
  * 4. API: None
  * 5. Author: Aditi Nath
  * 6. Creation date: 22-02-2022
- * 7. Modification date: 22-02-2022
+ * 7. Modification date: 22-03-2022
  * 8. How to test: Test using Jest, "npm run test" can verify whether the test are succesful
  * 9. TO DO: i) complete functions for generation and template handlers
  */
@@ -14,9 +14,13 @@ const sequelize = require('../db-config');
 
 const { getAvailableDocumentTypes, getUrlForDocument } = require('../util/db/helper');
 
-const validateDocumentType = async (type) => {
+const indexHandler = (req,res,next) => {
+    res.send('api version 0.1');
+};
+
+const validateDocumentType = async (t) => {
     const allTypes = await getAvailableDocumentTypes();
-    return allTypes.includes(type);
+    return allTypes.map(( { type } ) => (type)).includes(t);
 }
 
 const documentViewHandler = async (req, res) => {
@@ -43,16 +47,16 @@ const documentGenerateHandler = async (req, res) => {
 
     let html = await ejs.renderFile(__dirname + '/../example/templates/marksheet.ejs',
         {
-            roll: 510518005,
+            roll: 510518003,
             columns: ['Subject Code', 'Subject Name', 'Marks', 'Letter Grade'],
             rows: [['CS801', 'Artificial Intelligence', 98, 'O'],
             ['CS802', 'Big data', 89, 'A']],
             cgpa: 10
         }
     );
-    res.setHeader("Content-Type", "text/html")
-    res.send(html);
-    //res.status(200).send({ message: "Document generation successful", data : { html}});
+    //res.setHeader("Content-Type", "text/html")
+    //res.send(html);
+    res.status(200).send({ message: "Document generation successful", data : { html}});
 };
 
 const getDocumentTypes = async (req, res) => {
@@ -60,6 +64,7 @@ const getDocumentTypes = async (req, res) => {
     LEFT JOIN document_templates d2
     ON d1.id = d2.type_id
     `;
+
     try {
         const result = await sequelize.query(query, { type: sequelize.QueryTypes.SELECT });
         res.status(200).send({ message: 'Success', data: result });
@@ -87,9 +92,45 @@ const addDocumentType = async (req, res) => {
     }
 };
 
+const addDocumentInstance = async (req, res) => {
+    const { instance, template } = req.body;
+    const { type } = req.params;
+    if (!type.length) {
+        res.status(422).send({ error: 'Type must be a non null string' });
+        return;
+    }
+    const query1 = `SELECT id from document_types where type = ?`;
+    let id;
+    try {
+        const result = await sequelize.query(query1, {replacements : [type], type: sequelize.QueryTypes.SELECT});
+        id = result[0].id;
+        if(!id)
+        {
+            res.status(422).send({ message: 'Invalid document type!'});
+            return;
+        }
+    }catch (e) {
+        console.log(e);
+        res.status(500).send({ error: 'Error validating document type' });
+        return;
+    }
+
+    const query = `INSERT INTO document_templates (type_id, instance, template) VALUES (?, ?, ?)`;
+
+    try {
+        await sequelize.query(query, { replacements: [id, instance, template], type: sequelize.QueryTypes.INSERT });
+        res.status(200).send({ message: 'Successfully added document type' });
+    } catch (e) {
+        console.log(e);
+        res.status(500).send({ error: 'Error adding document template' });
+    }
+};
+
 module.exports = {
+    indexHandler,
     documentViewHandler,
     documentGenerateHandler,
     getDocumentTypes,
     addDocumentType,
+    addDocumentInstance,
 };
