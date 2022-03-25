@@ -11,5 +11,4 @@ spec:
       protocol: TCP
   selector:
     app: mypostgres
-    replicationRole: primary
   type: LoadBalancer
