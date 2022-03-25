@@ -99,7 +99,6 @@ const addDocumentInstance = async (req, res) => {
         res.status(422).send({ error: 'Type must be a non null string' });
         return;
     }
-    console.log(type);
     const query1 = `SELECT id from document_types where type = ?`;
     let id;
     try {
