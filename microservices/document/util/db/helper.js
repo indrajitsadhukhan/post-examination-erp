@@ -5,7 +5,7 @@
  * 4. API: None
  * 5. Author: Aditi Nath
  * 6. Creation date: 11-02-2022
- * 7. Modification date: 16-02-2022
+ * 7. Modification date: 25-03-2022
  * 8. How to test: Test using Jest, "npm run test" can verify whether the test are succesful
  * 9. TO DO: i) functions for obtaining processed data for respective users
  *           ii) accomodate different documents. 
@@ -21,7 +21,7 @@ async function getAvailableDocumentTypes()
 
 async function getUrlForDocument(userId, documentTemplateId, documentName)
 {   
-    return `localhost:3000/${documentTypeTemplateId}`;
+    return `localhost:3000/${documentTemplateId}`;
     const query = "SELECT url FROM documents WHERE user_id = ? and document_template_id = ? and name = ?";
     const result = await sequelize.query(query, { replacements: [userId, documentTemplateId, documentName], type: sequelize.QueryTypes.SELECT});
     return result;
