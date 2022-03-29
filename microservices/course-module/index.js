@@ -10,7 +10,6 @@
 9. TODO:  
 */
 
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const course_controller = require('./courseController')
@@ -18,13 +17,13 @@ const app = express()
 const port = 3000
 const upload = require('express-fileupload')
 
-
 app.use(bodyParser.json())
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 )
+
 app.use(upload())
 
 app.post('/course/createcourse', course_controller.createCourse)
@@ -38,16 +37,8 @@ app.get('/course/uploadmarks',(req,res)=>{
   res.sendFile(__dirname + '/index.html')
 })
 
-
-
-
-
 // Now set the app to listen on the port you set.
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 })
-
-
-
-
