@@ -19,7 +19,10 @@ const {
     documentGenerateHandler,
     getDocumentTypes,
     addDocumentType,
-    addDocumentInstance
+    addDocumentInstance,
+    getInstanceTemplate,
+    editInstanceTemplate,
+    getDocumentList
 }
     = require('./handlers');
 
@@ -30,9 +33,9 @@ router.get('/manage/generate/:document', documentGenerateHandler);
 router.get('/manage/types', getDocumentTypes);
 router.post('/manage/types/add', addDocumentType);
 router.post('/manage/types/:type', addDocumentInstance);
-router.get('/manage/types/:type/:instance', () => {});
-router.put('/manage/types/:type/:instance', () => {});
-router.get('/manage/types/:type/:instance/list', () => {});
+router.get('/manage/types/:type/:instance', getInstanceTemplate);
+router.put('/manage/types/:type/:instance', editInstanceTemplate);
+router.get('/manage/types/:type/:instance/list', getDocumentList);
 router.post('/manage/types/:type/:instance/generate', () => {});
 
 module.exports = router;

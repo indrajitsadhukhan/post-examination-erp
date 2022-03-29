@@ -99,6 +99,7 @@ const addDocumentInstance = async (req, res) => {
         res.status(422).send({ error: 'Type must be a non null string' });
         return;
     }
+    
     const query1 = `SELECT id from document_types where type = ?`;
     let id;
     try {
@@ -126,6 +127,178 @@ const addDocumentInstance = async (req, res) => {
     }
 };
 
+const getInstanceTemplate = async (req,res) => {
+    const { type, instance } = req.params;
+
+    if (!type.length) {
+        res.status(422).send({ error: 'Type must be a non null string' });
+        return;
+    }
+
+    if (!instance.length) {
+        res.status(422).send({ error: 'Instance must be a non null string' });
+        return;
+    }
+
+    const query1 = `SELECT id from document_types where type = ?`;
+    let id;
+    try {
+        const result = await sequelize.query(query1, {replacements : [type], type: sequelize.QueryTypes.SELECT});
+        id = result[0].id;
+        if(!id)
+        {
+            res.status(422).send({ message: 'Invalid document type!'});
+            return;
+        }
+    }catch (e) {
+        console.log(e);
+        res.status(500).send({ error: 'Error validating document type' });
+        return;
+    }
+
+    const query2 = `SELECT id from document_templates WHERE type_id = ? AND instance = ?`;
+    try {
+        const result = await sequelize.query(query2, {replacements : [id, instance], type: sequelize.QueryTypes.SELECT});
+        const temp_id = result[0].id;
+        if(!temp_id)
+        {
+            res.status(422).send({ message: 'Invalid document template!'});
+            return;
+        }
+    }catch (e) {
+        console.log(e);
+        res.status(500).send({ error: 'Error validating document template' });
+        return;
+    }
+
+    const query = 'SELECT template'
+        + ' FROM document_templates'
+        + ' WHERE type_id = ? AND instance = ?';
+    
+    try {
+        const result = await sequelize.query(query, { replacements: [id, instance],type: sequelize.QueryTypes.SELECT });
+        res.status(200).send({ message: 'Success', data: result });
+    } catch(e) {
+        console.log(e);
+        res.status(500).send({ error: 'Could not retrieve templates.' });
+    }
+}
+
+const editInstanceTemplate = async (req, res) => {
+    const { type, instance } = req.params;
+    const {temp } = req.body;
+
+    if (!type.length) {
+        res.status(422).send({ error: 'Type must be a non null string' });
+        return;
+    }
+
+    if (!instance.length) {
+        res.status(422).send({ error: 'Instance must be a non null string' });
+        return;
+    }
+    
+    const query1 = `SELECT id from document_types where type = ?`;
+    console.log(type);
+    let id;
+    try {
+        const result = await sequelize.query(query1, {replacements : [type], type: sequelize.QueryTypes.SELECT});
+        id = result[0].id;
+        if(!id)
+        {
+            res.status(422).send({ message: 'Invalid document type!'});
+            return;
+        }
+    }catch (e) {
+        console.log(e);
+        res.status(500).send({ error: 'Error validating document type' });
+        return;
+    }
+
+    const query2 = `SELECT id from document_templates WHERE type_id = ? AND instance = ?`;
+    try {
+        const result = await sequelize.query(query2, {replacements : [id, instance], type: sequelize.QueryTypes.SELECT});
+        const temp_id = result[0].id;
+        if(!temp_id)
+        {
+            res.status(422).send({ message: 'Invalid document template!'});
+            return;
+        }
+    }catch (e) {
+        console.log(e);
+        res.status(500).send({ error: 'Error validating document template' });
+        return;
+    }
+
+    const query = 'UPDATE document_templates '
+        + 'SET template = ? '
+        + 'WHERE type_id = ? AND instance = ?';
+
+    try {
+        await sequelize.query(query, { replacements: [temp, id, instance], type: sequelize.QueryTypes.UPDATE });
+        res.status(200).send({ message: 'Successfully updated document template' });
+    } catch (e) {
+        console.log(e);
+        res.status(500).send({ error: 'Error updating document template' });
+    }
+}
+
+const getDocumentList = async (req,res) => {
+    const {type, instance} = req.params;
+
+    if (!type.length) {
+        res.status(422).send({ error: 'Type must be a non null string' });
+        return;
+    }
+    
+    if (!instance.length) {
+        res.status(422).send({ error: 'Instance must be a non null string' });
+        return;
+    }
+    const query1 = `SELECT id from document_types where type = ?`;
+    console.log(type);
+    let id;
+    try {
+        const result = await sequelize.query(query1, {replacements : [type], type: sequelize.QueryTypes.SELECT});
+        id = result[0].id;
+        if(!id)
+        {
+            res.status(422).send({ message: 'Invalid document type!'});
+            return;
+        }
+    }catch (e) {
+        console.log(e);
+        res.status(500).send({ error: 'Error validating document type' });
+        return;
+    }
+
+    const query2 = `SELECT id from document_templates WHERE type_id = ? AND instance = ?`;
+    try {
+        const result = await sequelize.query(query2, {replacements : [id, instance], type: sequelize.QueryTypes.SELECT});
+        const temp_id = result[0].id;
+        if(!temp_id)
+        {
+            res.status(422).send({ message: 'Invalid document template!'});
+            return;
+        }
+    }catch (e) {
+        console.log(e);
+        res.status(500).send({ error: 'Error validating document template' });
+        return;
+    }
+
+    const query = 'SELECT name, url FROM documents WHERE document_template_id = '
+        + '( SELECT id FROM document_templates WHERE type_id = ? AND instance = ?)';
+    
+    try {
+        const result = await sequelize.query(query, { replacements: [id, instance], type: sequelize.QueryTypes.SELECT });
+        res.status(200).send({ message: 'Success', data: result });
+    } catch (e) {
+        console.log(e);
+        res.status(500).send({ error: 'Error retrieving documents!' });
+    }
+
+}
 module.exports = {
     indexHandler,
     documentViewHandler,
@@ -133,4 +306,7 @@ module.exports = {
     getDocumentTypes,
     addDocumentType,
     addDocumentInstance,
+    getInstanceTemplate,
+    editInstanceTemplate,
+    getDocumentList,
 };
