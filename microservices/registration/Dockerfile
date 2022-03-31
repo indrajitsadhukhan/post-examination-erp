@@ -13,4 +13,4 @@ RUN /usr/local/bin/node-prune
 COPY . .
 
 EXPOSE 3000
-CMD [ "node", "server.js" ]
+CMD [ "npm", "start" ]
