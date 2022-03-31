@@ -12,8 +12,15 @@ Run the setup script:
 ```bash
 ./setup.sh
 ```
-## Tutorial on Node-JS Web Framework
+## Tutorial on Node-JS PostgreSQL Web Framework
 https://blog.logrocket.com/nodejs-expressjs-postgresql-crud-rest-api-example/#whatisnodepostgres
+
+https://ishan02016.medium.com/creating-your-api-with-node-express-and-postgres-a50eb47451a2
+
+https://node-postgres.com/features/connecting
+
+https://www.rithmschool.com/courses/intermediate-node-express
+
 
 ## Goose: An application for coordinated migration and updation of database
 ### Installation
