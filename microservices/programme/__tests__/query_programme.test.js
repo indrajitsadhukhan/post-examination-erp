@@ -1,4 +1,20 @@
-
+/*
+ * File Name: query_programme.test.js
+ * Purpose: Tests the apis related to the table programme
+ * Dependency: 
+ *  File:
+ *   ../query_programme.js
+ *  Module:
+ *   supertest
+ *   express
+ *   jest
+ * API: N/A
+ * Author: Riom Sen
+ * Creation Date: 30 March, 2022
+ * Modification Date: 1 April, 2022
+ * How To Test: This is a test file
+ * todo: Implement the other tests of module.
+ */
 
 const router_programme = require( '../query_programme.js' );
 const request = require("supertest");
