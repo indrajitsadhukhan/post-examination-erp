@@ -5,11 +5,15 @@
     justify-content: center;
     padding: 1rem;
 
+    .loginBox__icon {
+        margin-bottom: 30px;
+    }
+
     .loginBox__controls {
         display: flex;
         flex-direction: row-reverse;
         width: 100%;
-        margin: 12px;
+        margin: 24px 12px 0 0;
 
         button {
             margin-right: 8px;
