@@ -5,10 +5,11 @@ import {
   IconButton,
   Input,
   InputLabel,
-  Button,
+  Button, Alert,
 } from '@mui/material';
 import { Visibility, VisibilityOff, PersonAdd } from '@mui/icons-material';
 import styles from './register.module.scss';
+import passwordValidator from '../../Util/password-validator';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -17,9 +18,26 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [alerts, setAlerts] = useState(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setAlerts(null);
+
+    const details = passwordValidator.validate(password, { details: true });
+    if (Array.isArray(details) && details.length > 0) {
+      setAlerts(
+        <Alert severity="error" sx={{ maxWidth: '30ch' }}>
+          {' '}
+          {details[0]?.message}
+          {' '}
+        </Alert>,
+      );
+    }
+  };
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className={styles.registerBox}>
         <div>
           <PersonAdd sx={{ height: '3rem', width: 'auto', color: '#787878' }} />
@@ -93,6 +111,7 @@ export default function Register() {
             Register
           </Button>
         </div>
+        {alerts}
       </div>
     </form>
   );
