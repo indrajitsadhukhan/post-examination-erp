@@ -12,7 +12,7 @@
  const ejs = require('ejs');
  const sequelize = require('../db-config');
  
- const { getAvailableDocumentTypes, getUrlForDocument, getUserDataForProgrammeAndSemester } = require('../util/db-helper');
+ const { getAvailableDocumentTypes, getUrlForDocument, getUserDataForProgrammeAndSemester, validateType, validateInstance, createNewDocumentType } = require('../util/db-helper');
  
  const indexHandler = (req,res,next) => {
      res.send('api version 0.1');
@@ -80,14 +80,13 @@
          res.status(422).send({ error: 'Type must be a non null string' });
          return;
      }
+     
+     const result = createNewDocumentType(type);
  
-     const query = `INSERT INTO document_types (type) VALUES (?)`;
- 
-     try {
-         const result = await sequelize.query(query, { replacements: [type], type: sequelize.QueryTypes.INSERT });
+     if(result) {
          res.status(200).send({ message: 'Successfully added document type' });
-     } catch (e) {
-         console.log(e);
+     } 
+     else {
          res.status(500).send({ error: 'Error adding document type' });
      }
  };
@@ -96,26 +95,14 @@
      const { instance, template } = req.body;
      const { type } = req.params;
      if (!type.length) {
-         res.status(422).send({ error: 'Type must be a non null string' });
-         return;
-     }
-     
-     const query1 = `SELECT id from document_types where type = ?`;
-     let id;
-     try {
-         const result = await sequelize.query(query1, {replacements : [type], type: sequelize.QueryTypes.SELECT});
-         id = result[0].id;
-         if(!id)
-         {
-             res.status(422).send({ message: 'Invalid document type!'});
-             return;
-         }
-     }catch (e) {
-         console.log(e);
-         res.status(500).send({ error: 'Error validating document type' });
-         return;
-     }
- 
+        res.status(422).send({ error: 'Type must be a non null string' });
+        return;
+    }
+    const id = await validateType(res, type);
+
+    if(!id) {
+        return;
+    }
      const query = `INSERT INTO document_templates (type_id, instance, template) VALUES (?, ?, ?)`;
  
      try {
@@ -134,40 +121,20 @@
          res.status(422).send({ error: 'Type must be a non null string' });
          return;
      }
- 
+     const id = await validateType(res, type);
+
+     if(!id) {
+         return;
+     }
+     
      if (!instance.length) {
          res.status(422).send({ error: 'Instance must be a non null string' });
          return;
      }
  
-     const query1 = `SELECT id from document_types where type = ?`;
-     let id;
-     try {
-         const result = await sequelize.query(query1, {replacements : [type], type: sequelize.QueryTypes.SELECT});
-         id = result[0].id;
-         if(!id)
-         {
-             res.status(422).send({ message: 'Invalid document type!'});
-             return;
-         }
-     }catch (e) {
-         console.log(e);
-         res.status(500).send({ error: 'Error validating document type' });
-         return;
-     }
- 
-     const query2 = `SELECT id from document_templates WHERE type_id = ? AND instance = ?`;
-     try {
-         const result = await sequelize.query(query2, {replacements : [id, instance], type: sequelize.QueryTypes.SELECT});
-         const temp_id = result[0].id;
-         if(!temp_id)
-         {
-             res.status(422).send({ message: 'Invalid document template!'});
-             return;
-         }
-     }catch (e) {
-         console.log(e);
-         res.status(500).send({ error: 'Error validating document template' });
+     const temp_id = await validateInstance(res, id, instance);
+
+     if(!temp_id) {
          return;
      }
  
@@ -189,103 +156,62 @@
      const {temp } = req.body;
  
      if (!type.length) {
-         res.status(422).send({ error: 'Type must be a non null string' });
-         return;
-     }
+        res.status(422).send({ error: 'Type must be a non null string' });
+        return;
+    }
+    const id = await validateType(res, type);
+
+    if(!id) {
+        return;
+    }
+    
+    if (!instance.length) {
+        res.status(422).send({ error: 'Instance must be a non null string' });
+        return;
+    }
+
+    const temp_id = await validateInstance(res, id, instance);
+
+    if(!temp_id) {
+        return;
+    }
  
-     if (!instance.length) {
-         res.status(422).send({ error: 'Instance must be a non null string' });
-         return;
-     }
-     
-     const query1 = `SELECT id from document_types where type = ?`;
-     console.log(type);
-     let id;
-     try {
-         const result = await sequelize.query(query1, {replacements : [type], type: sequelize.QueryTypes.SELECT});
-         id = result[0].id;
-         if(!id)
-         {
-             res.status(422).send({ message: 'Invalid document type!'});
-             return;
-         }
-     }catch (e) {
-         console.log(e);
-         res.status(500).send({ error: 'Error validating document type' });
-         return;
-     }
- 
-     const query2 = `SELECT id from document_templates WHERE type_id = ? AND instance = ?`;
-     try {
-         const result = await sequelize.query(query2, {replacements : [id, instance], type: sequelize.QueryTypes.SELECT});
-         const temp_id = result[0].id;
-         if(!temp_id)
-         {
-             res.status(422).send({ message: 'Invalid document template!'});
-             return;
-         }
-     }catch (e) {
-         console.log(e);
-         res.status(500).send({ error: 'Error validating document template' });
-         return;
-     }
- 
-     const query = 'UPDATE document_templates '
-         + 'SET template = ? '
-         + 'WHERE type_id = ? AND instance = ?';
- 
-     try {
-         await sequelize.query(query, { replacements: [temp, id, instance], type: sequelize.QueryTypes.UPDATE });
-         res.status(200).send({ message: 'Successfully updated document template' });
-     } catch (e) {
-         console.log(e);
-         res.status(500).send({ error: 'Error updating document template' });
-     }
+    const query = 'UPDATE document_templates '
+        + 'SET template = ? '
+        + 'WHERE type_id = ? AND instance = ?';
+
+    try {
+        await sequelize.query(query, { replacements: [temp, id, instance], type: sequelize.QueryTypes.UPDATE });
+        res.status(200).send({ message: 'Successfully updated document template' });
+    } catch (e) {
+        console.log(e);
+        res.status(500).send({ error: 'Error updating document template' });
+    }
  }
  
  const getDocumentList = async (req,res) => {
      const {type, instance} = req.params;
  
      if (!type.length) {
-         res.status(422).send({ error: 'Type must be a non null string' });
-         return;
-     }
-     
-     if (!instance.length) {
-         res.status(422).send({ error: 'Instance must be a non null string' });
-         return;
-     }
-     const query1 = `SELECT id from document_types where type = ?`;
-     console.log(type);
-     let id;
-     try {
-         const result = await sequelize.query(query1, {replacements : [type], type: sequelize.QueryTypes.SELECT});
-         id = result[0].id;
-         if(!id)
-         {
-             res.status(422).send({ message: 'Invalid document type!'});
-             return;
-         }
-     }catch (e) {
-         console.log(e);
-         res.status(500).send({ error: 'Error validating document type' });
-         return;
-     }
- 
-     const query2 = `SELECT id from document_templates WHERE type_id = ? AND instance = ?`;
-     try {
-         const result = await sequelize.query(query2, {replacements : [id, instance], type: sequelize.QueryTypes.SELECT});
-         const temp_id = result[0].id;
-         if(!temp_id)
-         {
-             res.status(422).send({ message: 'Invalid document template!'});
-             return;
-         }
-     }catch (e) {
-         console.log(e);
-         res.status(500).send({ error: 'Error validating document template' });
-         return;
-     }
+        res.status(422).send({ error: 'Type must be a non null string' });
+        return;
+    }
+    const id = await validateType(res, type);
+
+    if(!id) {
+        return;
+    }
+    
+    if (!instance.length) {
+        res.status(422).send({ error: 'Instance must be a non null string' });
+        return;
+    }
+
+    const temp_id = await validateInstance(res, id, instance);
+
+    if(!temp_id) {
+        return;
+    }
  
      const query = 'SELECT name, url FROM documents WHERE document_template_id = '
          + '( SELECT id FROM document_templates WHERE type_id = ? AND instance = ?)';
@@ -363,7 +289,7 @@
         });
     });
  }
- 
+
  module.exports = {
      indexHandler,
      documentViewHandler,

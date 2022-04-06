@@ -10,9 +10,47 @@
  * 9. TO DO: i) functions for obtaining processed data for respective users
  *           ii) accomodate different documents. 
  */
-const { QueryError, QueryTypes } = require('sequelize/types');
+const { QueryTypes } = require('sequelize');
 const sequelize = require('../db-config');
 
+const validateType = async (res,type) => {
+    const query1 = `SELECT id from document_types where type = ?`;
+    
+    let result;
+    try {
+        result = await sequelize.query(query1, {replacements : [type], type: sequelize.QueryTypes.SELECT});
+        
+        if(!result.length)
+        {
+            res.status(422).send({ message: 'Invalid document type!'});
+            return false;
+        }
+    }catch (e) {
+        console.log(e);
+        res.status(500).send({ error: 'Error validating document type' });
+        return false;
+    }
+    console.log('Valid document type!')
+    return result[0].id;
+}
+
+const validateInstance = async (res,type_id,instance) => {
+    const query2 = `SELECT id from document_templates WHERE type_id = ? AND instance = ?`;
+    let result;
+    try {
+         result = await sequelize.query(query2, {replacements : [type_id, instance], type: sequelize.QueryTypes.SELECT});
+         if(!result.length)
+         {
+             res.status(422).send({ message: 'Invalid document template!'});
+             return false;
+         }
+     }catch (e) {
+         console.log(e);
+         res.status(500).send({ error: 'Error validating document template' });
+         return false;
+     }
+     return result[0].id;
+}
 async function getAvailableDocumentTypes()
 {
     const query = "SELECT type FROM document_types";
@@ -41,9 +79,13 @@ async function createNewDocumentType(typeName)
     const existingTypes = await getAvailableDocumentTypes();
     if(!existingTypes.find(typeName))
     {
+        try{
         const query = "INSERT INTO document_types(type) VALUES (?)";
         const result = await sequelize.query(query, { replacements: [typeName], type: sequelize.QueryTypes.INSERT});
         return result;
+        } catch(e) {
+            return false;
+        }
     }
     return true;
 }
@@ -126,4 +168,6 @@ async function getMarksForExamForUser(examId, userId)
     getUrlForDocument,
     createNewDocumentType,
     getUserDataForProgrammeAndSemester,
+    validateType,
+    validateInstance,
  };
