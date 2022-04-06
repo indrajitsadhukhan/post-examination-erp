@@ -24,7 +24,7 @@ const {
     editInstanceTemplate,
     getDocumentList
 }
-    = require('./handlers');
+    = require('../controllers/main_controller');
 
 router.get('/', indexHandler);
 

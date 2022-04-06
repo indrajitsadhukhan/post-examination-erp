@@ -10,7 +10,8 @@
  * 9. TO DO: i) functions for obtaining processed data for respective users
  *           ii) accomodate different documents. 
  */
-const sequelize = require('../../db-config');
+const { QueryError, QueryTypes } = require('sequelize/types');
+const sequelize = require('../db-config');
 
 async function getAvailableDocumentTypes()
 {
@@ -49,8 +50,10 @@ async function createNewDocumentType(typeName)
 
 async function getCoursesForSemester(semesterId)
 {
-    const query = "SELECT id AS semester_courses_id , grade_id "
+    const query = "SELECT id AS semester_courses_id , grade_id, code, name "
         + "FROM semester_courses "
+        + "INNER JOIN course "
+        + "ON course.id = semester_courses.course_id"
         + "WHERE semester_id = ?";
 
     const result = await sequelize.query(query, { replacements: [semesterId], type: sequelize.QueryTypes.SELECT});
@@ -59,7 +62,7 @@ async function getCoursesForSemester(semesterId)
 
 async function getExamsForSemesterCourse(courseId)
 {
-    const query = "SELECT id , weightage, full_marks "
+    const query = "SELECT id, name, weightage, full_marks "
         + "FROM exams " 
         + "WHERE semester_course_id = ?";
     
@@ -90,6 +93,29 @@ async function getMarksForExamForUser(examId, userId)
     return result;
  }
 
+ async function getUserDataForProgrammeAndSemester(programme_version_id, semester_num, user_id)
+ {
+    let query = "SELECT id FROM semester WHERE programme_version_id = ? AND num = ?";
+    let result = await sequelize.query(query, { 
+        replacements: [programme_version_id, semester_num],
+        type: QueryTypes.SELECT,
+    });
+
+    const semesterId = result[0].id;
+    const current_courses = getCoursesForSemester(semesterId);
+
+    for (let i = 0; i < current_courses.length; i++) {
+        current_courses[i].exams = getExamsForSemesterCourse(current_courses[i].id);
+
+        for (let j = 0; j < current_courses[i].exams.length; j++) {
+            current_courses[i].exams[j].obtained_marks = getMarksForExamForUser(
+                current_courses[i].exams[j].id,
+                user_id,
+            )[0].obtained_marks;
+        }
+    }
+ }
+
  module.exports = {
     getCoursesForSemester,
     getExamsForSemesterCourse,
@@ -99,4 +125,5 @@ async function getMarksForExamForUser(examId, userId)
     getTemplateForDocument,
     getUrlForDocument,
     createNewDocumentType,
+    getUserDataForProgrammeAndSemester,
  };
