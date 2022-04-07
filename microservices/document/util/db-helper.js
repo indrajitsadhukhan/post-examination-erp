@@ -10,7 +10,7 @@
  * 9. TO DO: i) functions for obtaining processed data for respective users
  *           ii) accomodate different documents. 
  */
-const { QueryTypes } = require('sequelize');
+const { QueryTypes, Sequelize } = require('sequelize');
 const sequelize = require('../db-config');
 
 const validateType = async (res,type) => {
@@ -158,6 +158,20 @@ async function getMarksForExamForUser(examId, userId)
     }
  }
 
+ async function getUserProfileData(user_id) {
+    let query = `Select * from users where id=?`;
+    let result = await sequelize.query(query, { replacements: [user_id], type: sequelize.QueryTypes.SELECT });
+    let data = {...result};
+
+    query = `SELECT * from user_data where uid=?`;
+    result = await sequelize.query(query, { replacements: [user_id], type: sequelize.QueryTypes.SELECT });
+    data = {
+        ...data,
+        ...result,
+    };
+    return data;
+}
+
  module.exports = {
     getCoursesForSemester,
     getExamsForSemesterCourse,
@@ -170,4 +184,5 @@ async function getMarksForExamForUser(examId, userId)
     getUserDataForProgrammeAndSemester,
     validateType,
     validateInstance,
+    getUserProfileData,
  };

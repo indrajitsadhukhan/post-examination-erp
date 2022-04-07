@@ -12,7 +12,7 @@
  const ejs = require('ejs');
  const sequelize = require('../db-config');
  
- const { getAvailableDocumentTypes, getUrlForDocument, getUserDataForProgrammeAndSemester, validateType, validateInstance, createNewDocumentType } = require('../util/db-helper');
+ const { getAvailableDocumentTypes, getUrlForDocument, getUserDataForProgrammeAndSemester, validateType, validateInstance, createNewDocumentType, getUserProfileData } = require('../util/db-helper');
  
  const indexHandler = (req,res,next) => {
      res.send('api version 0.1');
@@ -285,9 +285,11 @@
     users.forEach((user_id) => {
         usersData.push({
             user_id,
+            user_data: getUserProfileData(user_id),
             ...getUserDataForProgrammeAndSemester(p_version_id, sem, user_id),
         });
     });
+
  }
 
  module.exports = {
