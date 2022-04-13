@@ -29,6 +29,7 @@ function TabPanel(props) {
 }
 
 TabPanel.propTypes = {
+  // eslint-disable-next-line react/require-default-props
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
@@ -77,3 +78,7 @@ export default function Authenticate({ type }) {
     </Grid>
   );
 }
+
+Authenticate.propTypes = {
+  type: PropTypes.string,
+};
