@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: api-gateway-config
 data:
-  DOCUMENT_SVC: http://document.default.svc.cluster.local
-  REGISTRATION_SVC: http://registration.default.svc.cluster.local
-  PROGRAMME_SVC: http://programme.default.svc.cluster.local
-  COURSE_SVC: http://course.default.svc.cluster.local
+  DOCUMENT_SVC: http://document-microservice-entrypoint.default.svc.cluster.local:3000
+  REGISTRATION_SVC: http://registration-microservice-entrypoint.default.svc.cluster.local:3000
+  PROGRAMME_SVC: http://programme-microservice-entrypoint.default.svc.cluster.local:3000
+  COURSE_SVC: http://course-microservice-entrypoint.default.svc.cluster.local:3000
