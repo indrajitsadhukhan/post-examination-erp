@@ -18,5 +18,8 @@
     "fast-csv": "^4.3.6",
     "pg": "^8.7.3",
     "pg-format": "^1.0.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.13.0"
   }
 }
