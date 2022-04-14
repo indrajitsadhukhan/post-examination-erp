@@ -18,6 +18,9 @@ spec:
           image: dwaiproduction/erp:api-gateway
       imagePullSecrets:
         - name: regcredv2
+      envFrom:
+        - configMapRef:
+            name: api-gateway-config
 ---
 apiVersion: v1
 kind: Service

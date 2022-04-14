@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: registration-config
+data:
+  DB_URL: postgres://postgres:test@mypostgres.default.cluster.local:5432
+  REPLICA_DB_URL: postgres://postgres:test@mypostgres-replica.default.cluster.local:5432
+  DB_NAME: postgres

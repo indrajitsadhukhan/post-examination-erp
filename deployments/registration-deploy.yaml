@@ -16,6 +16,9 @@ spec:
       containers:
         - name: registration-container
           image: registration:0.1.0
+      envFrom:
+        - configMapRef:
+            name: registration-config
 ---
 apiVersion: v1
 kind: Service

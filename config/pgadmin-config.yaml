@@ -18,3 +18,12 @@ data:
        }
    }
 
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pgadmin
+  namespace: default
+type: Opaque
+stringData:
+  pgadmin-password: test

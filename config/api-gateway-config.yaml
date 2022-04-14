@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-gateway-config
+data:
+  DOCUMENT_SVC: http://document.default.svc.cluster.local
+  REGISTRATION_SVC: http://registration.default.svc.cluster.local
+  PROGRAMME_SVC: http://programme.default.svc.cluster.local
+  COURSE_SVC: http://course.default.svc.cluster.local

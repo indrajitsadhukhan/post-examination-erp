@@ -18,6 +18,9 @@ spec:
           image: dwaiproduction/erp:document
       imagePullSecrets:
         - name: regcredv2
+      envFrom:
+        - configMapRef:
+            name: document-config
 ---
 apiVersion: v1
 kind: Service
