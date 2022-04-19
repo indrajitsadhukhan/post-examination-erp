@@ -1,3 +1,5 @@
 minikube-darwin-amd64
 **/node_modules
 **/.env
+**/.idea
+**/.DS_Store
