@@ -14,18 +14,63 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
-import { Tabs1, Tabs2 } from './constants';
+import {
+  PROGRAMME_TAB, COURSES_TAB, Tabs1, Tabs2,
+} from './constants';
 import { changeTab } from './dashboardSlice';
 import Programme from './Programme/programme';
+import Course from './Course/course';
+
 import styles from './dashboard.module.scss';
 
 const drawerWidth = 240;
+
+const programmesMockData = [
+  {
+    name: 'Btech CST 2018',
+    currentSem: 8,
+    totalSem: 8,
+    cgpa: 9.6,
+    startDate: '21/06/2018',
+  },
+  {
+    name: 'Mtech CST 2018',
+    currentSem: 1,
+    totalSem: 4,
+    cgpa: 6.7,
+    startDate: '21/06/2018',
+
+  },
+];
+
+const courseMockData = [
+  {
+    name: 'Artifical Intelligence',
+    code: 'CS801',
+    instructor: 'Somnath Pal',
+  },
+  {
+    name: 'Computer Vision',
+    code: 'CS802',
+    instructor: 'Sekhar Mandal',
+  },
+  {
+    name: 'Final Project',
+    code: 'CSSMTH',
+    instructor: 'Manas Hira',
+  },
+];
 
 function Dashboard(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const dispatch = useDispatch();
   const dashboard = useSelector((state) => state.dashboard);
+
+  const tabs = {
+    [PROGRAMME_TAB]: <Programme data={programmesMockData} />,
+    [COURSES_TAB]: <Course data={courseMockData} />,
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -34,24 +79,6 @@ function Dashboard(props) {
   const handleTabChange = (tab) => {
     dispatch(changeTab(tab));
   };
-
-  const programmesMockData = [
-    {
-      name: 'Btech Ug 2018',
-      currentSem: 6,
-      totalSem: 8,
-      cgpa: 9.6,
-      startDate: '21/06/2018',
-    },
-    {
-      name: 'Mtech Pg 2018',
-      currentSem: 1,
-      totalSem: 4,
-      cgpa: 6.7,
-      startDate: '21/06/2018',
-
-    },
-  ];
 
   const drawer = (
     <div>
@@ -154,7 +181,7 @@ function Dashboard(props) {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        <Programme data={programmesMockData} />
+        {tabs[dashboard.activeTab] || null}
       </Box>
     </Box>
   );
