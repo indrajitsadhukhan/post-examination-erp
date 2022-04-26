@@ -20,6 +20,8 @@ import {
 import { changeTab } from './dashboardSlice';
 import Programme from './Programme/programme';
 import Course from './Course/course';
+import Settings from './Se';
+
 
 import styles from './dashboard.module.scss';
 

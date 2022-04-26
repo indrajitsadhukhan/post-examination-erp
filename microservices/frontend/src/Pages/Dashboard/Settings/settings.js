@@ -3,7 +3,7 @@ import { Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import { CourseCard } from '../../../Components/Cards/Cards';
 
-export default function Course({ data }) {
+export default function Settings({ data }) {
   return (
     <Grid container spacing={2}>
       {data.map((item) => (
