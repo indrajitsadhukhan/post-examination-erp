@@ -10,7 +10,7 @@ function ProgrammeCard({
   name, startDate, currentSem, totalSem, cgpa,
 }) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: '400px' }}>
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h6" component="div" fontWeight={600} display='flex' justifyContent='flex-start'>

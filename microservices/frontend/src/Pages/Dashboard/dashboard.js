@@ -1,4 +1,3 @@
-/* eslint-disable */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
@@ -14,24 +13,26 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Grid } from '@mui/material';
-import { ProgrammeCard } from '../../Components/Cards/Cards';
+import { useDispatch, useSelector } from 'react-redux';
 import { Tabs1, Tabs2 } from './constants';
-import store from '../../Store/store';
+import { changeTab } from './dashboardSlice';
+import Programme from './Programme/programme';
+import styles from './dashboard.module.scss';
 
 const drawerWidth = 240;
 
 function Dashboard(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const { dashboard } = store.getState();
+  const dispatch = useDispatch();
+  const dashboard = useSelector((state) => state.dashboard);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const handleTabChange = (tab) => {
-
+    dispatch(changeTab(tab));
   };
 
   const programmesMockData = [
@@ -61,24 +62,28 @@ function Dashboard(props) {
       </Toolbar>
       <Divider />
       <List>
-        {Object.keys(Tabs1).map((text) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {Tabs1[text].icon}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
+        {Object.keys(Tabs1).map((tab) => (
+          <div key={tab} className={tab === dashboard.activeTab ? styles.tabLink__active : ''} onClick={() => handleTabChange(tab)}>
+            <ListItem button>
+              <ListItemIcon>
+                {Tabs1[tab].icon}
+              </ListItemIcon>
+              <ListItemText primary={tab} />
+            </ListItem>
+          </div>
         ))}
       </List>
       <Divider />
       <List>
-        {Object.keys(Tabs2).map((text) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {Tabs2[text].icon}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
+        {Object.keys(Tabs2).map((tab) => (
+          <div key={tab} className={tab === dashboard.activeTab ? styles.tabLink__active : ''} onClick={() => handleTabChange(tab)}>
+            <ListItem button onClick={() => handleTabChange(tab)}>
+              <ListItemIcon>
+                {Tabs2[tab].icon}
+              </ListItemIcon>
+              <ListItemText primary={tab} />
+            </ListItem>
+          </div>
         ))}
       </List>
     </div>
@@ -149,13 +154,7 @@ function Dashboard(props) {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        <Grid container spacing={2}>
-          {programmesMockData.map((item) => (
-            <Grid item xs={12} sm={6} key={item.name}>
-              <ProgrammeCard {...item} />
-            </Grid>
-          ))}
-        </Grid>
+        <Programme data={programmesMockData} />
       </Box>
     </Box>
   );
