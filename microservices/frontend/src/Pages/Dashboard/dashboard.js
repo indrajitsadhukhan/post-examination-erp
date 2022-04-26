@@ -15,7 +15,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  PROGRAMME_TAB, COURSES_TAB, Tabs1, Tabs2, DOCUMENTS_TAB,
+  PROGRAMME_TAB, COURSES_TAB, Tabs1, Tabs2, DOCUMENTS_TAB, SETTINGS_TAB,
 } from './constants';
 import { changeTab } from './dashboardSlice';
 import Programme from './Programme/programme';
@@ -36,6 +36,7 @@ function Dashboard(props) {
     [PROGRAMME_TAB]: <Programme />,
     [COURSES_TAB]: <Course />,
     [DOCUMENTS_TAB]: <Document />,
+    [SETTINGS_TAB]: <Settings />,
   };
 
   const handleDrawerToggle = () => {

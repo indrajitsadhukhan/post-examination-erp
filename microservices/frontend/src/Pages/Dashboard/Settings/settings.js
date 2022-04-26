@@ -15,6 +15,6 @@ export default function Settings({ data }) {
   );
 }
 
-Course.propTypes = {
+Settings.propTypes = {
   data: PropTypes.object,
 };
