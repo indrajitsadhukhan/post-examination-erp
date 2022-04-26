@@ -15,53 +15,16 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  PROGRAMME_TAB, COURSES_TAB, Tabs1, Tabs2,
+  PROGRAMME_TAB, COURSES_TAB, Tabs1, Tabs2, DOCUMENTS_TAB,
 } from './constants';
 import { changeTab } from './dashboardSlice';
 import Programme from './Programme/programme';
 import Course from './Course/course';
-import Settings from './Se';
-
-
+import Settings from './Settings/settings';
+import Document from './Document/document';
 import styles from './dashboard.module.scss';
 
 const drawerWidth = 240;
-
-const programmesMockData = [
-  {
-    name: 'Btech CST 2018',
-    currentSem: 8,
-    totalSem: 8,
-    cgpa: 9.6,
-    startDate: '21/06/2018',
-  },
-  {
-    name: 'Mtech CST 2018',
-    currentSem: 1,
-    totalSem: 4,
-    cgpa: 6.7,
-    startDate: '21/06/2018',
-
-  },
-];
-
-const courseMockData = [
-  {
-    name: 'Artifical Intelligence',
-    code: 'CS801',
-    instructor: 'Somnath Pal',
-  },
-  {
-    name: 'Computer Vision',
-    code: 'CS802',
-    instructor: 'Sekhar Mandal',
-  },
-  {
-    name: 'Final Project',
-    code: 'CSSMTH',
-    instructor: 'Manas Hira',
-  },
-];
 
 function Dashboard(props) {
   const { window } = props;
@@ -70,8 +33,9 @@ function Dashboard(props) {
   const dashboard = useSelector((state) => state.dashboard);
 
   const tabs = {
-    [PROGRAMME_TAB]: <Programme data={programmesMockData} />,
-    [COURSES_TAB]: <Course data={courseMockData} />,
+    [PROGRAMME_TAB]: <Programme />,
+    [COURSES_TAB]: <Course />,
+    [DOCUMENTS_TAB]: <Document />,
   };
 
   const handleDrawerToggle = () => {

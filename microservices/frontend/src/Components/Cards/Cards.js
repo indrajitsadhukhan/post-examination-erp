@@ -10,7 +10,7 @@ function ProgrammeCard({
   name, startDate, currentSem, totalSem, cgpa,
 }) {
   return (
-    <Card sx={{ maxWidth: '400px' }}>
+    <Card sx={{ maxWidth: '360px', minHeight: '150px' }}>
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h6" component="div" fontWeight={600} display="flex" justifyContent="flex-start">
@@ -63,13 +63,13 @@ function CourseCard({
   name, instructor, code,
 }) {
   return (
-    <Card sx={{ maxWidth: '400px' }}>
+    <Card sx={{ maxWidth: '360px', minHeight: '150px' }}>
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h6" component="div" fontWeight={600} display="flex" justifyContent="flex-start">
             {`${name} (${code})`}
           </Typography>
-          <Typography>
+          <Typography mt={6}>
             Instructor:
             {' '}
             {instructor}

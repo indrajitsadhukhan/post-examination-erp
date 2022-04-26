@@ -25,6 +25,6 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': [0],
     'import/prefer-default-export': [0],
     'react/forbid-prop-types': [0],
-    'react/require-default-props': [0],
+    'react/no-array-index-key': [0],
   },
 };
