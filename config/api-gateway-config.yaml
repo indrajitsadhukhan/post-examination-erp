@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-gateway-config
+data:
+  DOCUMENT_SVC: http://document-microservice-entrypoint.default.svc.cluster.local:3000
+  REGISTRATION_SVC: http://registration-microservice-entrypoint.default.svc.cluster.local:3000
+  PROGRAMME_SVC: http://programme-microservice-entrypoint.default.svc.cluster.local:3000
+  COURSE_SVC: http://course-microservice-entrypoint.default.svc.cluster.local:3000

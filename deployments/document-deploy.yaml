@@ -15,7 +15,12 @@ spec:
     spec:
       containers:
         - name: document-container
-          image: document:0.1.0
+          image: dwaiproduction/erp:document
+          envFrom:
+            - configMapRef:
+                name: document-config
+      imagePullSecrets:
+        - name: regcredv2
 ---
 apiVersion: v1
 kind: Service

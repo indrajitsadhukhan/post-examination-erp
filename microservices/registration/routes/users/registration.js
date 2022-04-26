@@ -2,11 +2,7 @@ const { validateEmail, generatePasswordHash } = require("../../util/util");
 const db = require("../../sequelize");
 const { QueryTypes } = require("sequelize");
 
-const validateUserDetails = (res, { firstName, email, password }) => {
-  if (firstName.length === 0) {
-    res.status(422).send({ error: "First Name cannot be empty" });
-    return false;
-  }
+const validateUserDetails = (res, { email, univ_id, password }) => {
   if (!validateEmail(email)) {
     res.status(422).send({ error: "Invalid email" });
     return false;
@@ -20,10 +16,7 @@ const validateUserDetails = (res, { firstName, email, password }) => {
 };
 
 const registerUserInDB = async ({
-  firstName,
-  lastName,
-  email,
-  passwordHash,
+  email, univ_id, passwordHash,
 }) => {
   const res = await db.query(
     "INSERT into users (first_name, last_name, email, password_hash) VALUES (?, ?, ?, ?)",
@@ -37,18 +30,17 @@ const registerUserInDB = async ({
 
 const registerUser = async (req, res) => {
   const {
-    first_name: firstName,
-    last_name: lastName,
     email,
+    univ_id,
     password,
   } = req.body;
 
-  if (!validateUserDetails(req, { firstName, email, password })) {
+  if (!validateUserDetails(req, { email, univ_id, password })) {
     return;
   }
 
   const passwordHash = await generatePasswordHash(password);
-  const result = registerUserInDB({ firstName, lastName, email, passwordHash });
+  const result = registerUserInDB({ email, univ_id, passwordHash });
   if (result) {
     res.send({ message: "Registered user successfully" });
   } else {

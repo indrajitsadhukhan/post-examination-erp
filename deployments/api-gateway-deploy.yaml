@@ -15,7 +15,12 @@ spec:
     spec:
       containers:
         - name: api-gateway-container
-          image: api-gateway:0.1.0
+          image: dwaiproduction/erp:api-gateway
+          envFrom:
+            - configMapRef:
+                name: api-gateway-config
+      imagePullSecrets:
+        - name: regcredv2
 ---
 apiVersion: v1
 kind: Service

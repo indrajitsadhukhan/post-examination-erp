@@ -13,6 +13,8 @@ app.use(cookieParser());
 
 const documentServiceProxy = httpProxy(process.env.DOCUMENT_SVC);
 const registrationServiceProxy = httpProxy(process.env.REGISTRATION_SVC);
+const programmeServiceProxy = httpProxy(process.env.PROGRAMME_SVC);
+const courseServiceProxy = httpProxy(process.env.COURSE_SVC);
 
 // Authentication
 app.use((req, res, next) => {
@@ -26,6 +28,12 @@ app.get('/doc/*', (req, res, next) => {
 })
 app.get('/user/*', (req, res, next) => {
     registrationServiceProxy(req, res, next);
+})
+app.get('/course/*', (req, res, next) => {
+    courseServiceProxy(req, res, next);
+})
+app.get('/programme/*', (req, res, next) => {
+    programmeServiceProxy(req, res, next);
 })
 
 module.exports = app;

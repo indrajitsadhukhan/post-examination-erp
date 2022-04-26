@@ -1,0 +1,43 @@
+apiVersion: kubegres.reactive-tech.io/v1
+kind: Kubegres
+metadata:
+  name: mypostgres
+  namespace: default
+
+spec:
+
+  replicas: 3
+  image: postgres:13.2
+
+  database:
+    size: 3Gi
+
+  env:
+    - name: POSTGRES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: mypostgres-secret
+          key: superUserPassword
+
+    - name: POSTGRES_REPLICATION_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: mypostgres-secret
+          key: replicationUserPassword
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: postgres-published
+spec:
+  ports:
+    - name: http
+      port: 5432
+      targetPort: 5432
+      nodePort: 30000
+      protocol: TCP
+  selector:
+    app: mypostgres
+    replicationRole: primary
+  type: LoadBalancer

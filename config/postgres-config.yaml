@@ -1,8 +1,9 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: pgadmin
+  name: mypostgres-secret
   namespace: default
 type: Opaque
 stringData:
-  pgadmin-password: dwaisSuperSecretPasswordWhichNooneCanGuess
+  superUserPassword: test
+  replicationUserPassword: test

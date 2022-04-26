@@ -15,7 +15,13 @@ spec:
     spec:
       containers:
         - name: registration-container
-          image: registration:0.1.0
+          image: dwaiproduction/erp:registration
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: registration-config
+      imagePullSecrets:
+        - name: regcredv2
 ---
 apiVersion: v1
 kind: Service

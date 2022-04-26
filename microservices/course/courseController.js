@@ -16,26 +16,15 @@
 8. How to test:
 9. TODO: uploadmarks
 */
-
+require('dotenv').config();
 
 const Pool = require('pg').Pool
-const upload = require('express-fileupload')
 const fs = require('fs')
 const csv = require('fast-csv')
-require('dotenv').config();
-var async = require("async");
-var format = require('pg-format');
-
-
-
+const format = require('pg-format')
 const express = require('express')
 const app = express()
 const bodyparser = require('body-parser')
-const mysql = require('mysql')
-const multer = require('multer')
-const path = require('path');
-const { resolve } = require('path');
-const e = require('express');
 
 app.use(express.static("./public"))
  
