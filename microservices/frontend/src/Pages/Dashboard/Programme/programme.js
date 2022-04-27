@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React from 'react';
 import { Grid } from '@mui/material';
 import PropTypes from 'prop-types';
@@ -26,7 +27,7 @@ export default function Programme() {
     <Grid container spacing={2}>
       <Grid item xs={60} sm={6} md={4} key="Buttons">
         <div style={{ display: 'flex', justifyContent: 'start' }}>
-          <button type="submit"> Add Programme </button>
+          <button type="submit" onClick={() => alert('A')}> Add Programme </button>
           <button type="submit"> Enroll into a Programme </button>
         </div>
       </Grid>
