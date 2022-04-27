@@ -24,11 +24,19 @@ const data = [
 export default function Programme() {
   return (
     <Grid container spacing={2}>
-      {data.map((item) => (
-        <Grid item xs={12} sm={6} md={4} key={item.name}>
-          <ProgrammeCard {...item} />
-        </Grid>
-      ))}
+      <Grid item xs={60} sm={6} md={4} key="Buttons">
+        <div style={{ display: 'flex', justifyContent: 'start' }}>
+          <button type="submit"> Add Programme </button>
+          <button type="submit"> Enroll into a Programme </button>
+        </div>
+      </Grid>
+      <Grid container spacing={2}>
+        {data.map((item) => (
+          <Grid item xs={12} sm={6} md={4} key={item.name}>
+            <ProgrammeCard {...item} />
+          </Grid>
+        ))}
+      </Grid>
     </Grid>
   );
 }
