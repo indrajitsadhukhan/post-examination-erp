@@ -33,7 +33,7 @@ function Dashboard(props) {
   const dashboard = useSelector((state) => state.dashboard);
 
   const tabs = {
-    [PROGRAMME_TAB]: <Programme />,
+    [PROGRAMME_TAB]: [<Programme />],
     [COURSES_TAB]: <Course />,
     [DOCUMENTS_TAB]: <Document />,
     [SETTINGS_TAB]: <Settings />,
