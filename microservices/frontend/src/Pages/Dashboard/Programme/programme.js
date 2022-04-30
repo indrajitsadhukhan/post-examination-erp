@@ -5,11 +5,6 @@ import {
   Grid, Modal, Box, Typography, TextField, FormGroup,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import { ProgrammeCard } from '../../../Components/Cards/Cards';
 
