@@ -41,6 +41,7 @@ export default function Programme() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [programmeName, setProgrammeName] = React.useState('');
 
   return (
     <div>
@@ -58,10 +59,15 @@ export default function Programme() {
           <FormGroup style={{ display: 'flex', rowGap: '12px' }}>
             {/* Create a reactive variable and bind them with these
             input elements and use their data in the API */}
-            <TextField id="name" label="Name" variant="outlined" />
+            <TextField
+              id="name"
+              label="Name"
+              variant="outlined"
+              onChange={(e) => { setProgrammeName(e.target.value); }}
+            />
             <TextField id="start" label="More info" variant="outlined" />
             <div style={{ display: 'flex', justifyContent: 'end' }}>
-              <Button variant="contained" disableElevation>Save</Button>
+              <Button variant="contained" onClick={handleClose}>Save</Button>
             </div>
           </FormGroup>
         </Box>
