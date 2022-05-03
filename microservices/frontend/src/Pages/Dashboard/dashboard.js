@@ -15,7 +15,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  PROGRAMME_TAB, COURSES_TAB, Tabs1, Tabs2, DOCUMENTS_TAB, SETTINGS_TAB,
+  PROGRAMME_TAB, COURSES_TAB, Tabs1, Tabs2, DOCUMENTS_TAB, SETTINGS_TAB, PROFILE_TAB,
 } from './constants';
 import { changeTab } from './dashboardSlice';
 import Programme from './Programme/programme';
@@ -23,6 +23,7 @@ import Course from './Course/course';
 import Settings from './Settings/settings';
 import Document from './Document/document';
 import styles from './dashboard.module.scss';
+import Profile from './Profile/profile';
 
 const drawerWidth = 240;
 
@@ -37,6 +38,7 @@ function Dashboard(props) {
     [COURSES_TAB]: <Course />,
     [DOCUMENTS_TAB]: <Document />,
     [SETTINGS_TAB]: <Settings />,
+    [PROFILE_TAB]: <Profile />,
   };
 
   const handleDrawerToggle = () => {
