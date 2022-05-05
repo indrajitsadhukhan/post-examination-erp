@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable arrow-parens */
 /* eslint-disable no-alert */
 import React from 'react';
 import {
@@ -8,7 +9,7 @@ import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { ProgrammeCard } from '../../../Components/Cards/Cards';
 
-const data = [
+const datum = [
   {
     name: 'Btech CST 2018',
     currentSem: 8,
@@ -42,6 +43,12 @@ export default function Programme() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [programmeName, setProgrammeName] = React.useState('');
+  const sendProgrammeNameToDatabase = () => {
+    fetch('http://localhost:9000')
+      .then(response => response.json())
+      .then(data => alert(data.message));
+    handleClose();
+  };
 
   return (
     <div>
@@ -67,7 +74,12 @@ export default function Programme() {
             />
             <TextField id="start" label="More info" variant="outlined" />
             <div style={{ display: 'flex', justifyContent: 'end' }}>
-              <Button variant="contained" onClick={handleClose}>Save</Button>
+              <Button
+                variant="contained"
+                onClick={sendProgrammeNameToDatabase}
+              >
+                Save
+              </Button>
             </div>
           </FormGroup>
         </Box>
@@ -83,7 +95,7 @@ export default function Programme() {
           </div>
         </Grid>
         <Grid container spacing={2}>
-          {data.map((item) => (
+          {datum.map((item) => (
             <Grid item xs={12} sm={6} md={4} key={item.name}>
               <ProgrammeCard {...item} />
             </Grid>
