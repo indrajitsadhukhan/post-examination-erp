@@ -1,16 +1,14 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable arrow-parens */
 /* eslint-disable no-alert */
 import React from 'react';
-import { Grid } from '@mui/material';
+import {
+  Grid, Modal, Box, Typography, TextField, FormGroup, Button,
+} from '@mui/material';
 import PropTypes from 'prop-types';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Dialog from '@material-ui/core/Dialog';
-import Button from '@material-ui/core/Button';
 import { ProgrammeCard } from '../../../Components/Cards/Cards';
 
-const data = [
+const datum = [
   {
     name: 'Btech CST 2018',
     currentSem: 8,
@@ -24,66 +22,155 @@ const data = [
     totalSem: 4,
     cgpa: 6.7,
     startDate: '21/06/2018',
-
   },
 ];
 
-function App() {
-  alert('A');
-  const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+export default function Programme() {
+  const [openProg, setOpenProg] = React.useState(false);
+  const handleOpenProg = () => setOpenProg(true);
+  const handleCloseProg = () => setOpenProg(false);
+  const [programmeName, setProgrammeName] = React.useState('');
+  const [openRes, setOpenRes] = React.useState(false);
+  const handleOpenRes = () => setOpenRes(true);
+  const handleCloseRes = () => setOpenRes(false);
+  const [resolutionName, setResolutionName] = React.useState('');
+  const [resolutionValue, setResolutionValue] = React.useState('');
+  const [openProgEnroll, setOpenProgEnroll] = React.useState(false);
+  const handleOpenProgEnroll = () => setOpenProgEnroll(true);
+  const handleCloseProgEnroll = () => setOpenProgEnroll(false);
+  const sendProgrammeNameToDatabase = () => {
+    fetch('http://localhost:9000')
+      .then(response => response.json())
+      .then(data => alert(data.message));
+    handleCloseProg();
   };
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   return (
     <div>
-      <Button
-        variant="outlined"
-        color="primary"
-        onClick={handleClickOpen}
+      <Modal
+        open={openProg}
+        onClose={handleCloseProg}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        Open My Custom Dialog
-      </Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>
-          Greetings from GeeksforGeeks
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Do you do coding ?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Close
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
-}
-export default function Programme() {
-  return (
-    <Grid container spacing={2}>
-      <Grid item xs={60} sm={6} md={4} key="Buttons">
-        <div style={{ display: 'flex', justifyContent: 'start' }}>
-          <button type="submit" onClick={() => App}> Add Programme </button>
-          <button type="submit"> Enroll into a Programme </button>
-        </div>
-      </Grid>
+        <Box sx={style}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            style={{ marginBottom: '8px' }}
+          >
+            Programme Details
+          </Typography>
+
+          <FormGroup style={{ display: 'flex', rowGap: '12px' }}>
+            {/* Create a reactive variable and bind them with these
+            input elements and use their data in the API */}
+            <TextField
+              id="name"
+              label="Name"
+              variant="outlined"
+              onChange={(e) => { setResolutionName(e.target.value); }}
+            />
+            <TextField id="Code" label="Code" variant="outlined" />
+            <div style={{ display: 'flex', justifyContent: 'end' }}>
+              <Button
+                variant="contained"
+                onClick={sendProgrammeNameToDatabase}
+              >
+                Save
+              </Button>
+            </div>
+          </FormGroup>
+        </Box>
+      </Modal>
+      <Modal
+        open={openRes}
+        onClose={handleCloseRes}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            style={{ marginBottom: '8px' }}
+          >
+            Resolution Details
+          </Typography>
+
+          <FormGroup style={{ display: 'flex', rowGap: '12px' }}>
+            <TextField
+              id="name"
+              label="Name"
+              variant="outlined"
+              onChange={(e) => { setResolutionName(e.target.value); }}
+            />
+            <TextField
+              id="start"
+              label="Content"
+              variant="outlined"
+              onChange={(e) => { setResolutionValue(e.target.value); }}
+            />
+            <div style={{ display: 'flex', justifyContent: 'end' }}>
+              <Button
+                variant="contained"
+                onClick={handleCloseRes}
+              >
+                Save
+              </Button>
+            </div>
+          </FormGroup>
+        </Box>
+      </Modal>
+
       <Grid container spacing={2}>
-        {data.map((item) => (
-          <Grid item xs={12} sm={6} md={4} key={item.name}>
-            <ProgrammeCard {...item} />
-          </Grid>
-        ))}
+        <Grid item xs={12} sm={6} md={4} key="Buttons">
+          <div style={{ display: 'flex', justifyContent: 'start' }}>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={handleOpenProg}
+            >
+              Add a Programme
+            </Button>
+            <Button
+              variant="contained"
+              size="small"
+            >
+              Enroll into a Programme
+            </Button>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={handleOpenRes}
+            >
+              Add a regulation
+            </Button>
+          </div>
+        </Grid>
+        <Grid container spacing={2}>
+          {datum.map((item) => (
+            <Grid item xs={12} sm={6} md={4} key={item.name}>
+              <ProgrammeCard {...item} />
+            </Grid>
+          ))}
+        </Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 }
 
