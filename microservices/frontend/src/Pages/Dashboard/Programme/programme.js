@@ -3,10 +3,9 @@
 /* eslint-disable no-alert */
 import React from 'react';
 import {
-  Grid, Modal, Box, Typography, TextField, FormGroup,
+  Grid, Modal, Box, Typography, TextField, FormGroup, Button,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
 import { ProgrammeCard } from '../../../Components/Cards/Cards';
 
 const datum = [
@@ -39,27 +38,40 @@ const style = {
 };
 
 export default function Programme() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [openProg, setOpenProg] = React.useState(false);
+  const handleOpenProg = () => setOpenProg(true);
+  const handleCloseProg = () => setOpenProg(false);
   const [programmeName, setProgrammeName] = React.useState('');
+  const [openRes, setOpenRes] = React.useState(false);
+  const handleOpenRes = () => setOpenRes(true);
+  const handleCloseRes = () => setOpenRes(false);
+  const [resolutionName, setResolutionName] = React.useState('');
+  const [resolutionValue, setResolutionValue] = React.useState('');
+  const [openProgEnroll, setOpenProgEnroll] = React.useState(false);
+  const handleOpenProgEnroll = () => setOpenProgEnroll(true);
+  const handleCloseProgEnroll = () => setOpenProgEnroll(false);
   const sendProgrammeNameToDatabase = () => {
     fetch('http://localhost:9000')
       .then(response => response.json())
       .then(data => alert(data.message));
-    handleClose();
+    handleCloseProg();
   };
 
   return (
     <div>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openProg}
+        onClose={handleCloseProg}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" style={{ marginBottom: '8px' }}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            style={{ marginBottom: '8px' }}
+          >
             Programme Details
           </Typography>
 
@@ -70,9 +82,9 @@ export default function Programme() {
               id="name"
               label="Name"
               variant="outlined"
-              onChange={(e) => { setProgrammeName(e.target.value); }}
+              onChange={(e) => { setResolutionName(e.target.value); }}
             />
-            <TextField id="start" label="More info" variant="outlined" />
+            <TextField id="Code" label="Code" variant="outlined" />
             <div style={{ display: 'flex', justifyContent: 'end' }}>
               <Button
                 variant="contained"
@@ -84,14 +96,70 @@ export default function Programme() {
           </FormGroup>
         </Box>
       </Modal>
+      <Modal
+        open={openRes}
+        onClose={handleCloseRes}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            style={{ marginBottom: '8px' }}
+          >
+            Resolution Details
+          </Typography>
+
+          <FormGroup style={{ display: 'flex', rowGap: '12px' }}>
+            <TextField
+              id="name"
+              label="Name"
+              variant="outlined"
+              onChange={(e) => { setResolutionName(e.target.value); }}
+            />
+            <TextField
+              id="start"
+              label="Content"
+              variant="outlined"
+              onChange={(e) => { setResolutionValue(e.target.value); }}
+            />
+            <div style={{ display: 'flex', justifyContent: 'end' }}>
+              <Button
+                variant="contained"
+                onClick={handleCloseRes}
+              >
+                Save
+              </Button>
+            </div>
+          </FormGroup>
+        </Box>
+      </Modal>
 
       <Grid container spacing={2}>
-        <Grid item xs={60} sm={6} md={4} key="Buttons">
+        <Grid item xs={12} sm={6} md={4} key="Buttons">
           <div style={{ display: 'flex', justifyContent: 'start' }}>
-            <button type="submit" onClick={handleOpen}>
-              Add Programme
-            </button>
-            <button type="submit"> Enroll into a Programme </button>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={handleOpenProg}
+            >
+              Add a Programme
+            </Button>
+            <Button
+              variant="contained"
+              size="small"
+            >
+              Enroll into a Programme
+            </Button>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={handleOpenRes}
+            >
+              Add a regulation
+            </Button>
           </div>
         </Grid>
         <Grid container spacing={2}>
