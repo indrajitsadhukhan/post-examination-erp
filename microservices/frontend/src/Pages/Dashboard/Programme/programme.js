@@ -3,7 +3,7 @@
 /* eslint-disable no-alert */
 import React from 'react';
 import {
-  Grid, Modal, Box, Typography, TextField, FormGroup, Button,
+  Grid, Modal, Box, Typography, TextField, FormGroup, Button, Menu, MenuItem,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import { ProgrammeCard } from '../../../Components/Cards/Cards';
@@ -50,6 +50,10 @@ export default function Programme() {
   const [openProgEnroll, setOpenProgEnroll] = React.useState(false);
   const handleOpenProgEnroll = () => setOpenProgEnroll(true);
   const handleCloseProgEnroll = () => setOpenProgEnroll(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const menuOpen = Boolean(anchorEl);
+  const handleMenuClick = (event) => setAnchorEl(event.currentTarget);
+  const handleMenuClose = () => setAnchorEl(null);
   const sendProgrammeNameToDatabase = () => {
     fetch('http://localhost:9000')
       .then(response => response.json())
@@ -137,28 +141,29 @@ export default function Programme() {
         </Box>
       </Modal>
 
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={menuOpen}
+        onClose={handleMenuClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={handleOpenProg}>Add a Program</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Enroll into a Programme</MenuItem>
+        <MenuItem onClick={handleOpenRes}>Add a resolution</MenuItem>
+      </Menu>
+
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={4} key="Buttons">
-          <div style={{ display: 'flex', justifyContent: 'start' }}>
+          <div style={{ display: 'flex' }}>
             <Button
               variant="contained"
               size="small"
-              onClick={handleOpenProg}
+              onClick={handleMenuClick}
             >
-              Add a Programme
-            </Button>
-            <Button
-              variant="contained"
-              size="small"
-            >
-              Enroll into a Programme
-            </Button>
-            <Button
-              variant="contained"
-              size="small"
-              onClick={handleOpenRes}
-            >
-              Add a regulation
+              Menu
             </Button>
           </div>
         </Grid>
