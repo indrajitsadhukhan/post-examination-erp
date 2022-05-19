@@ -22,6 +22,11 @@ export function ButtonComp({
   );
 }
 
+// export function Button(props)
+// {
+// <button type="button" className="btn btn-primary">{props.text}</button>
+// }
+
 export function Line() {
   return (
     <div style={
