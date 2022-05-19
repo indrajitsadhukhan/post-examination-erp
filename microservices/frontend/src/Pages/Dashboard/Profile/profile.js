@@ -215,7 +215,7 @@ export default function Profile() {
           <div className="section">
             <div className="section-header">
               <p>
-                <b>Contact</b>
+                <b>Contact Details</b>
               </p>
               <Button
                 variant="contained"
