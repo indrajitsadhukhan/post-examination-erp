@@ -47,7 +47,7 @@ const pool = new Pool({
 const createCourse = (request, response) => {
     const { code , name } = request.body
     console.log(request.body)
-    if(code==null || name==null)
+    if(code===null || name===null)
     {
       response.status(403).send({error:'Parameters not correct',data:{}})
       return
@@ -71,7 +71,7 @@ const createCourse = (request, response) => {
   const createInstance = (request, response) => {
     const { course_id,details } = request.body
     console.log(request.body)
-    if(course_id==null || details==null)
+    if(course_id===null || details===null)
     {
       response.status(403).send({error:'Parameters not correct',data:{}})
       return
@@ -92,12 +92,11 @@ const createCourse = (request, response) => {
 const linkSemester = (request, response) => {
   const { course_version_id,course_regulations_id, semester_id, grade_id } = request.body
   console.log(request.body)
-  if(course_version_id==null || course_regulations_id==null || semester_id==null || grade_id==null)
+  if(course_version_id===null || course_regulations_id===null || semester_id===null || grade_id===null)
   {
     response.status(403).send({error:'Parameters not correct',data:{}})
     return
   }
-
   pool.query('insert into semester_courses (course_version_id,course_regulations_id, semester_id, grade_id) values ($1,$2,$3,$4)',[course_version_id,course_regulations_id, semester_id, grade_id], (error, results) => {
     if (error) {
       console.log(error.detail)
@@ -107,7 +106,6 @@ const linkSemester = (request, response) => {
     }
     response.status(201).send({status:201,message:'Course linked with semester',data:{}})
   })
-
 }
 
 // 4. POST /exam/entrymarks
@@ -115,12 +113,11 @@ const entryMarks = (request, response) => {
 
   const { exam_id,user_id,obtained_marks } = request.body
   console.log(request.body)
-  if(exam_id==null || user_id==null || obtained_marks==null)
+  if(exam_id===null || user_id===null || obtained_marks===null)
   {
     response.status(403).send({error:'Parameters not correct',data:{}})
     return
   }
-
   pool.query('insert into marks ( exam_id,user_id,obtained_marks) values ($1,$2,$3)',[ exam_id,user_id,obtained_marks], (error, results) => {
     if (error) {
       console.log(error.detail)
@@ -137,7 +134,7 @@ const createExam = (request, response) => {
 
   const { semester_courses_id,name,full_marks } = request.body
   console.log(request.body)
-  if(semester_courses_id==null || name==null || full_marks==null)
+  if(semester_courses_id===null || name===null || full_marks===null)
   {
     response.status(403).send({error:'Parameters not correct',data:{}})
     return
@@ -203,7 +200,7 @@ const uploadmarks= (request, response) => {
    var promise = new Promise((resolve,reject)=>
    {
    let res= uploadfile(request.files.file)
-    if(res==0)
+    if(res===0)
     {
       response.send(err);
       reject("Failed to upload")

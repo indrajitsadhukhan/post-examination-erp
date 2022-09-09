@@ -128,4 +128,3 @@ create table marks (
 	user_id INT references users(id),
 	obtained_marks numeric
 );
-
